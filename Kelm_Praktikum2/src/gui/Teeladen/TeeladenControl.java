@@ -1,4 +1,4 @@
-package gui;
+package gui.Teeladen;
 
 import java.io.IOException;
 
@@ -12,7 +12,8 @@ public class TeeladenControl {
 	private TeeladenModel model;
 	
 	public TeeladenControl(Stage primaryStage) {
-		this.model = new TeeladenModel();
+		//this.model = new TeeladenModel();
+		this.model = TeeladenModel.getInstance();
 		this.view = new TeeladenView(primaryStage, this, this.model);
 		
 	}
@@ -30,6 +31,8 @@ public class TeeladenControl {
        	catch(Exception exc){
        		view.zeigeFehlermeldungsfensterAn(exc.getMessage());
      	}
+    	
+    	model.notifyObservers();
     }
 	
 	void leseAusDatei(String typ){

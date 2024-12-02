@@ -1,4 +1,4 @@
-package gui;
+package gui.Teeladen;
 
 import business.TeeladenModel;
 import javafx.event.ActionEvent;
@@ -16,9 +16,10 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import observer.Observer;
 import ownUtil.MeldungsfensterAnzeiger;
 
-public class TeeladenView {
+public class TeeladenView implements Observer {
 	
 	private TeeladenModel model;
 	private TeeladenControl control;
@@ -79,6 +80,7 @@ public class TeeladenView {
     	primaryStage.show();
     	this.initKomponenten();
 		this.initListener();
+		this.model.addObserver(this);
 		
 	}
 	
@@ -203,5 +205,18 @@ public class TeeladenView {
 	       	new MeldungsfensterAnzeiger(AlertType.ERROR,
 	        	"Fehler", meldung).zeigeMeldungsfensterAn(); 
 	    }
+
+	    // OBSERVER-PATTERN
+	    
+		@Override
+		public void update() {
+		  	if(this.model.getTee() != null){
+	    		txtAnzeige.setText(
+	    			this.model.getTee().gibTeeZurueck(' '));
+	    	}
+	    	else{
+	    		zeigeInformationsfensterAn("Bisher wurde kein Tee aufgenommen!");
+	    	}
+		}
 
 }
